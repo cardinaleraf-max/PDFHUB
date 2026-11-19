@@ -1,0 +1,37 @@
+name: Publish PDFHub 1.0.0
+on:
+  push:
+    branches: [release/publish-1.0.0]
+    paths: [.github/workflows/publish-verified.yml]
+permissions:
+  actions: read
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download verified packages and publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE: dcb2620f001c1cf2b81cae03fcbf8f7ef2da5302
+          RUN_ID: '44592473915'
+        shell: bash
+        run: |
+          set -euo pipefail
+          export GH_REPO="$GITHUB_REPOSITORY"
+          gh api "repos/$GH_REPO/actions/runs/$RUN_ID" | jq -e --arg sha "$SOURCE" '.head_sha == $sha and .conclusion == "success"'
+          mkdir dist
+          for pair in Windows-x64:Windows-x64 macOS-arm64:macOS-arm64 macOS-x64:macOS-x86_64; do
+            gh run download "$RUN_ID" --repo "$GH_REPO" --name "PDFHub-${pair%:*}" --dir dist
+            unzip -tq "dist/PDFHub-1.0.0-${pair#*:}.zip"
+          done
+          cat > notes.md <<'NOTES'
+          PDFHub converte e modifica PDF sul computer. Scegli il pacchetto per il tuo dispositivo nella sezione **Assets** qui sotto.
+
+          - **Windows x64** — estrai lo ZIP e avvia PDFHub.exe. Per trascinare i file sull'icona, esegui “Installa icona desktop.cmd”.
+          - **Mac con chip Apple** — scarica lo ZIP arm64, aprilo e sposta PDFHub.app in Applicazioni.
+          - **Mac con processore Intel** — scarica lo ZIP x86_64 e sposta PDFHub.app in Applicazioni.
+
+          Su Mac puoi controllare il chip dal menu Apple  → Informazioni su questo Mac.
+          NOTES
+          gh release create v1.0.0 dist/PDFHub-1.0.0-{Windows-x64,macOS-arm64,macOS-x86_64}.zip --repo "$GH_REPO" --target "$SOURCE" --title "PDFHub 1.0.0" --notes-file notes.md --latest
