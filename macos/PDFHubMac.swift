@@ -84,12 +84,12 @@ struct PDFHubMac: App {
     }
     private func chooseFiles() {
         let panel=NSOpenPanel();panel.allowsMultipleSelection=true;panel.canChooseDirectories=false
-        if panel.runModal()==.OK { paths += panel.urls }
+        if panel.runModal() == NSApplication.ModalResponse.OK { paths += panel.urls }
     }
     private func convert() {
         guard let selected else {return}
         let panel=NSSavePanel();panel.nameFieldStringValue=(paths.first?.deletingPathExtension().lastPathComponent ?? "documento")+"-pdfhub.pdf"
-        guard panel.runModal()==.OK,let output=panel.url else{return}
+        guard panel.runModal() == NSApplication.ModalResponse.OK,let output=panel.url else{return}
         busy=true;message=""
         DispatchQueue.global(qos:.userInitiated).async {
             var options:[String:String]=[:]
@@ -113,7 +113,6 @@ struct PDFHubMac: App {
         }
     }
     private func installIcon() {
-        guard let source=Bundle.main.bundleURL.appendingPathComponent("Contents/Resources/PDFHub.icns") as URL? else{return}
         let destination=FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Desktop/PDFHub.app")
         do { try? FileManager.default.removeItem(at:destination);try FileManager.default.copyItem(at:Bundle.main.bundleURL,to:destination);NSWorkspace.shared.activateFileViewerSelecting([destination]) }
         catch {message=error.localizedDescription}

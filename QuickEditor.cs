@@ -95,7 +95,7 @@ internal sealed class QuickEditor : Window
             var errors=process.StandardError.ReadToEndAsync();
             string response=process.StandardOutput.ReadToEnd();process.WaitForExit();
             if(process.ExitCode!=0)throw new IOException("Errore del motore PDF. "+errors.Result);
-            var record=new JavaScriptSerializer().Deserialize<Dictionary<string,string>>(response);
+            var record=new JavaScriptSerializer().Deserialize<Dictionary<string,string>>(response.TrimStart('\uFEFF','\u200B','\u200E'));
             if(record.ContainsKey("error"))throw new IOException(record["error"]);
             return record["name"];
         }
