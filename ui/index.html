@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="session" content="__SESSION__"><title>PDFHub · Studio</title>
+  <link rel="icon" href="/icon.svg"><link rel="stylesheet" href="/style.css"><script id="catalog-data" type="application/json">__CATALOG__</script><script defer src="/app.js"></script>
+</head>
+<body>
+  <header><div class="bar"><a class="logo" href="#" data-view="studio"><img src="/icon.svg" alt="">PDF<span>Hub</span></a>
+    <nav aria-label="Navigazione"><button data-view="studio" class="active"><i data-icon="orbit"></i>Studio</button><button data-view="tools"><i data-icon="grid"></i>Strumenti</button><button data-view="history"><i data-icon="clock"></i>Attività</button></nav>
+    <span class="local"><b></b>Modalità locale</span></div></header>
+  <main>
+    <section id="studio">
+      <div class="intro"><p class="eyebrow"><b></b> AREA DI LAVORO</p><h1>Studio PDF<span>.</span></h1><p>Unisci, trasforma e organizza i tuoi documenti in un unico spazio.</p></div>
+      <div class="workbench">
+        <section class="orbital"><div class="panelhead"><h2><i data-icon="orbit"></i> Orbita strumenti</h2><span class="counter">08 STRUMENTI</span></div>
+          <div class="universe"><div class="wheel"><div class="rings"></div><div class="ticks"></div>
+          <div class="core" aria-hidden="true"><div class="sheets"><b></b><b></b><strong>PDF</strong></div></div>
+          <div id="satellites"></div></div></div>
+          <div class="orbitfoot"><i data-icon="pointer"></i> Seleziona uno strumento sull’orbita</div></section>
+        <section class="import"><div class="panelhead"><h2><i data-icon="inbox"></i> Ingresso file</h2><span class="live"></span></div>
+          <div class="drop" id="homeDrop"><div class="fileart" aria-hidden="true"><b></b><em></em><strong><i></i><span>PDF</span></strong></div>
+          <h3>Trascina qui i file</h3><p>oppure selezionali dal tuo computer</p><button class="primary" id="browse"><i data-icon="plus"></i> Scegli file</button><small>PDF · IMMAGINI · OFFICE · HTML · TXT</small></div>
+          <div class="privacy"><span class="shield"><i data-icon="shield"></i></span><div><strong>Solo sul tuo dispositivo</strong><p>I tuoi file vengono elaborati in locale.</p></div></div></section>
+      </div>
+      <div class="sectionhead"><h2>Accesso rapido</h2><button data-view="tools" class="link">Tutti gli strumenti <i data-icon="arrow"></i></button></div><div class="cards" id="quick"></div>
+    </section>
+    <section id="tools" hidden><div class="intro"><p class="eyebrow"><b></b> LIBRERIA</p><h1>Strumenti<span>.</span></h1><p>Scegli l’operazione da applicare ai tuoi file.</p></div><div class="filters"><label>Cerca <input type="search" id="search" placeholder="Nome o funzione"></label><label>Categoria <select id="category"><option value="">Tutte le categorie</option></select></label></div><p id="count" aria-live="polite"></p><div class="cards" id="catalog"></div></section>
+    <section id="history" hidden><div class="intro"><p class="eyebrow"><b></b> SESSIONE CORRENTE</p><h1>Attività<span>.</span></h1><p>Ritrova e salva i risultati fino alla chiusura di PDFHub.</p></div><div id="results"></div></section>
+    <footer><span><b></b> Motore PDF pronto</span><span>PDFHub Desktop</span></footer>
+  </main>
+  <dialog id="editor"><form id="form"><div class="dialoghead"><span class="eyebrow">STRUMENTO</span><button type="button" id="close" aria-label="Chiudi"><i data-icon="x"></i></button></div>
+    <h2 id="opTitle"></h2><p id="opDesc"></p><label>Operazione<select id="operation"></select></label>
+    <button type="button" id="add" class="add"><i data-icon="plus"></i> Aggiungi o trascina file</button><div id="files"></div><div id="options"></div>
+    <details id="unlock"><summary>Il PDF ha una password di apertura?</summary><input type="password" name="source_password" aria-label="Password di apertura" autocomplete="off"></details>
+    <p id="status" role="status"></p><button id="run" class="primary" type="submit"></button></form></dialog>
+  <input id="picker" type="file" hidden multiple>
+</body></html>

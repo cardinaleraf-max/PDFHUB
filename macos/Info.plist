@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+<key>CFBundleName</key><string>PDFHub</string><key>CFBundleDisplayName</key><string>PDFHub</string>
+<key>CFBundleIdentifier</key><string>com.cardinaleraf.pdfhub</string><key>CFBundleVersion</key><string>1.0.0</string>
+<key>CFBundleShortVersionString</key><string>1.0.0</string><key>CFBundleExecutable</key><string>PDFHub</string>
+<key>CFBundleIconFile</key><string>PDFHub.icns</string><key>CFBundlePackageType</key><string>APPL</string>
+<key>LSMinimumSystemVersion</key><string>13.0</string><key>NSHighResolutionCapable</key><true/>
+<key>NSPrincipalClass</key><string>NSApplication</string>
+<key>CFBundleDocumentTypes</key><array><dict>
+<key>CFBundleTypeName</key><string>PDFHub documents</string><key>LSHandlerRank</key><string>Alternate</string>
+<key>LSItemContentTypes</key><array><string>com.adobe.pdf</string><string>public.image</string>
+<string>org.openxmlformats.wordprocessingml.document</string><string>org.openxmlformats.spreadsheetml.sheet</string>
+<string>org.openxmlformats.presentationml.presentation</string><string>public.html</string><string>public.plain-text</string></array>
+</dict></array></dict></plist>

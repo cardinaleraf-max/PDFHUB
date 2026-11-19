@@ -1,0 +1,71 @@
+name: Build and publish PDFHub
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          architecture: x64
+      - run: python -m pip install -r requirements.txt pytest pypdf
+      - run: python -m pytest -p no:cacheprovider -q tests/test_edges.py
+      - run: python tests/check_suite.py --native
+      - run: python -m pip install Pillow
+      - run: python packaging/windows_release.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PDFHub-Windows-x64
+          path: dist/*.zip
+
+  macos:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-15
+            architecture: arm64
+          - runner: macos-15-intel
+            architecture: x64
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -r requirements.txt pytest pypdf pyinstaller
+      - run: python -m pytest -p no:cacheprovider -q tests/test_edges.py
+      - name: Build native macOS app
+        run: bash packaging/build_macos.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PDFHub-macOS-${{ matrix.architecture }}
+          path: dist/*.zip
+
+  publish:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [windows, macos]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          pattern: PDFHub-*
+          merge-multiple: true
+      - name: Publish verified downloads
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/*.zip \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "PDFHub ${GITHUB_REF_NAME#v}" \
+            --generate-notes

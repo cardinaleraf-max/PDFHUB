@@ -1,0 +1,538 @@
+{
+ "groups": [
+  {
+   "name": "Organizza",
+   "color": "#ff9264",
+   "glyph": "E8B7",
+   "tools": [
+    {
+     "id": "merge",
+     "title": "Unisci PDF",
+     "description": "Combina più PDF nell’ordine scelto.",
+     "fields": [],
+     "min": 2,
+     "max": 99,
+     "accept": ".pdf"
+    },
+    {
+     "id": "split",
+     "title": "Dividi PDF",
+     "description": "Salva le pagine in uno ZIP o estrai un intervallo.",
+     "fields": [
+      "mode",
+      "pages"
+     ],
+     "min": 1,
+     "max": 1,
+     "accept": ".pdf"
+    },
+    {
+     "id": "extract",
+     "title": "Estrai pagine",
+     "description": "Salva le pagine selezionate in un PDF.",
+     "fields": [
+      "pages"
+     ],
+     "min": 1,
+     "max": 1,
+     "accept": ".pdf"
+    },
+    {
+     "id": "remove",
+     "title": "Elimina pagine",
+     "description": "Rimuovi le pagine indicate.",
+     "fields": [
+      "pages"
+     ],
+     "min": 1,
+     "max": 1,
+     "accept": ".pdf"
+    },
+    {
+     "id": "order",
+     "title": "Riordina pagine",
+     "description": "Specifica la sequenza, anche ripetendo le pagine.",
+     "fields": [
+      "pages"
+     ],
+     "min": 1,
+     "max": 1,
+     "accept": ".pdf"
+    },
+    {
+     "id": "rotate",
+     "title": "Ruota PDF",
+     "description": "Ruota tutte le pagine in senso orario.",
+     "fields": [
+      "angle"
+     ],
+     "min": 1,
+     "max": 1,
+     "accept": ".pdf"
+    },
+    {
+     "id": "scan",
+     "title": "Scansiona",
+     "description": "Acquisisci un foglio da uno scanner WIA collegato.",
+     "fields": [],
+     "min": 0,
+     "max": 0,
+     "accept": ".pdf"
+    }
+   ]
+  },
+  {
+   "name": "Converti in PDF",
+   "color": "#9dc8ff",
+   "glyph": "E8A5",
+   "tools": [
+    {
+     "id": "fromimg",
+     "title": "Immagini in PDF",
+     "description": "Raccogli JPG, PNG, BMP e TIFF in un PDF.",
+     "fields": [],
+     "min": 1,
+     "max": 99,
+     "accept": ".jpg,.jpeg,.png,.bmp,.tif,.tiff"
+    },
+    {
+     "id": "wordin",
+     "title": "Word in PDF",
+     "description": "Esporta un documento DOCX con Microsoft Word.",
+     "fields": [],
+     "min": 1,
+     "max": 1,
+     "accept": ".docx"
+    },
+    {
+     "id": "excelin",
+     "title": "Excel in PDF",
+     "description": "Esporta un foglio XLSX con Microsoft Excel.",
+     "fields": [],
+     "min": 1,
+     "max": 1,
+     "accept": ".xlsx"
+    },
+    {
+     "id": "pptin",
+     "title": "PowerPoint in PDF",
+     "description": "Esporta una presentazione PPTX con PowerPoint.",
+     "fields": [],
+     "min": 1,
+     "max": 1,
+     "accept": ".pptx"
+    },
+    {
+     "id": "html",
+     "title": "HTML in PDF",
+     "description": "Impagina un file HTML locale con le risorse incorporate.",
+     "fields": [],
+     "min": 1,
+     "max": 1,
+     "accept": ".html,.htm"
+    },
+    {
+     "id": "txtin",
+     "title": "Testo in PDF",
+     "description": "Impagina un file di testo UTF-8.",
+     "fields": [],
+     "min": 1,
+     "max": 1,
+     "accept": ".txt"
+    }
+   ]
+  },
+  {
+   "name": "Esporta",
+   "color": "#b1a1ff",
+   "glyph": "E8DE",
+   "tools": [
+    {
+     "id": "toimg",
+     "title": "PDF in immagini",
+     "description": "Esporta le pagine in JPG o PNG in un archivio ZIP.",
+     "fields": [
+      "format"
+     ],
+     "min": 1,
+     "max": 1,
+     "accept": ".pdf"
+    },
+    {
+     "id": "wordout",
+     "title": "PDF in Word",
+     "description": "Crea un DOCX modificabile con testo e immagini in ordine di lettura.",
+     "fields": [],
+     "min": 1,
+     "max": 1,
+     "accept": ".pdf"
+    },
+    {
+     "id": "excelout",
+     "title": "PDF in Excel",
+     "description": "Esporta le tabelle riconosciute in un file XLSX.",
+     "fields": [],
+     "min": 1,
+     "max": 1,
+     "accept": ".pdf"
+    },
+    {
+     "id": "pptout",
+     "title": "PDF in PowerPoint",
+     "description": "Crea una diapositiva per pagina con l’aspetto originale.",
+     "fields": [],
+     "min": 1,
+     "max": 1,
+     "accept": ".pdf"
+    },
+    {
+     "id": "text",
+     "title": "Estrai testo",
+     "description": "Salva il testo selezionabile in un TXT.",
+     "fields": [],
+     "min": 1,
+     "max": 1,
+     "accept": ".pdf"
+    },
+    {
+     "id": "markdown",
+     "title": "PDF in Markdown",
+     "description": "Esporta il testo distinguendo titoli e paragrafi.",
+     "fields": [],
+     "min": 1,
+     "max": 1,
+     "accept": ".pdf"
+    },
+    {
+     "id": "images",
+     "title": "Estrai immagini",
+     "description": "Recupera le immagini incorporate in un archivio ZIP.",
+     "fields": [],
+     "min": 1,
+     "max": 1,
+     "accept": ".pdf"
+    }
+   ]
+  },
+  {
+   "name": "Ottimizza",
+   "color": "#9ed3af",
+   "glyph": "E945",
+   "tools": [
+    {
+     "id": "compress",
+     "title": "Comprimi PDF",
+     "description": "Riduci il peso del file.",
+     "fields": [
+      "level"
+     ],
+     "min": 1,
+     "max": 1,
+     "accept": ".pdf"
+    },
+    {
+     "id": "repair",
+     "title": "Ripara PDF",
+     "description": "Ricostruisci gli indici dei documenti recuperabili.",
+     "fields": [],
+     "min": 1,
+     "max": 1,
+     "accept": ".pdf"
+    },
+    {
+     "id": "ocr",
+     "title": "Riconosci testo",
+     "description": "Rendi ricercabili le pagine scansionate con OCR di Windows.",
+     "fields": [],
+     "min": 1,
+     "max": 1,
+     "accept": ".pdf"
+    },
+    {
+     "id": "pdfa",
+     "title": "PDF in PDF/A",
+     "description": "Crea una copia visiva PDF/A-2b con immagini e profilo colore sRGB.",
+     "fields": [],
+     "min": 1,
+     "max": 1,
+     "accept": ".pdf"
+    }
+   ]
+  },
+  {
+   "name": "Modifica",
+   "color": "#e6adcd",
+   "glyph": "E70F",
+   "tools": [
+    {
+     "id": "numbers",
+     "title": "Numera pagine",
+     "description": "Aggiungi numeri progressivi a piè di pagina.",
+     "fields": [
+      "start"
+     ],
+     "min": 1,
+     "max": 1,
+     "accept": ".pdf"
+    },
+    {
+     "id": "watermark",
+     "title": "Filigrana",
+     "description": "Sovrapponi una scritta semitrasparente a ogni pagina.",
+     "fields": [
+      "caption"
+     ],
+     "min": 1,
+     "max": 1,
+     "accept": ".pdf"
+    },
+    {
+     "id": "crop",
+     "title": "Ritaglia",
+     "description": "Ritaglia lo stesso margine su ogni lato, in millimetri.",
+     "fields": [
+      "margin"
+     ],
+     "min": 1,
+     "max": 1,
+     "accept": ".pdf"
+    },
+    {
+     "id": "edit",
+     "title": "Aggiungi testo",
+     "description": "Inserisci una scritta su una pagina alle coordinate in millimetri.",
+     "fields": [
+      "page",
+      "x",
+      "y",
+      "caption"
+     ],
+     "min": 1,
+     "max": 1,
+     "accept": ".pdf"
+    },
+    {
+     "id": "sign",
+     "title": "Apponi firma",
+     "description": "Apponi il tuo nome come firma visiva.",
+     "fields": [
+      "page",
+      "x",
+      "y",
+      "signature"
+     ],
+     "min": 1,
+     "max": 1,
+     "accept": ".pdf"
+    },
+    {
+     "id": "forms",
+     "title": "Compila modulo",
+     "description": "Compila un campo di testo esistente indicando nome e valore.",
+     "fields": [
+      "field",
+      "value"
+     ],
+     "min": 1,
+     "max": 1,
+     "accept": ".pdf"
+    },
+    {
+     "id": "newfield",
+     "title": "Crea campo",
+     "description": "Inserisci un campo di testo compilabile.",
+     "fields": [
+      "page",
+      "x",
+      "y",
+      "field"
+     ],
+     "min": 1,
+     "max": 1,
+     "accept": ".pdf"
+    }
+   ]
+  },
+  {
+   "name": "Proteggi",
+   "color": "#8dd7cb",
+   "glyph": "E72E",
+   "tools": [
+    {
+     "id": "protect",
+     "title": "Proteggi PDF",
+     "description": "Cifra il PDF con una nuova password.",
+     "fields": [
+      "password"
+     ],
+     "min": 1,
+     "max": 1,
+     "accept": ".pdf"
+    },
+    {
+     "id": "unlock",
+     "title": "Sblocca PDF",
+     "description": "Salva una copia sbloccata usando la password conosciuta.",
+     "fields": [],
+     "min": 1,
+     "max": 1,
+     "accept": ".pdf"
+    },
+    {
+     "id": "redact",
+     "title": "Oscura testo",
+     "description": "Rimuovi dalle pagine il testo cercato e applica una copertura nera.",
+     "fields": [
+      "needle"
+     ],
+     "min": 1,
+     "max": 1,
+     "accept": ".pdf"
+    },
+    {
+     "id": "compare",
+     "title": "Confronta PDF",
+     "description": "Confronta il testo di due versioni in un rapporto HTML.",
+     "fields": [],
+     "min": 2,
+     "max": 2,
+     "accept": ".pdf"
+    }
+   ]
+  },
+  {
+   "name": "Lingua e sintesi",
+   "color": "#f6cb80",
+   "glyph": "E8C1",
+   "tools": [
+    {
+     "id": "summary",
+     "title": "Riassumi",
+     "description": "Seleziona le frasi principali oppure usa un modello locale di Ollama.",
+     "fields": [
+      "method",
+      "model"
+     ],
+     "min": 1,
+     "max": 1,
+     "accept": ".pdf"
+    },
+    {
+     "id": "translate",
+     "title": "Traduci PDF",
+     "description": "Traduci il testo in un nuovo PDF con Ollama in locale.",
+     "fields": [
+      "language",
+      "model"
+     ],
+     "min": 1,
+     "max": 1,
+     "accept": ".pdf"
+    }
+   ]
+  }
+ ],
+ "fields": {
+  "method": ["Metodo di sintesi","select","extractive","extractive|Frasi principali","model|Modello Ollama"],
+  "mode": [
+   "Modalità",
+   "select",
+   "all",
+   "all|Una pagina per file ZIP",
+   "range|Intervallo in un PDF"
+  ],
+  "pages": [
+   "Pagine o sequenza",
+   "text",
+   "1",
+   "Es. 3, 1-2"
+  ],
+  "angle": [
+   "Rotazione oraria",
+   "select",
+   "90",
+   "90|90°",
+   "180|180°",
+   "270|270°"
+  ],
+  "format": [
+   "Formato",
+   "select",
+   "jpg",
+   "jpg|JPG",
+   "png|PNG"
+  ],
+  "level": [
+   "Compressione",
+   "select",
+   "normal",
+   "normal|Senza perdita",
+   "strong|Elevata"
+  ],
+  "start": [
+   "Primo numero",
+   "number",
+   "1"
+  ],
+  "caption": [
+   "Testo",
+   "text",
+   ""
+  ],
+  "margin": [
+   "Margine per lato (mm)",
+   "number",
+   "10"
+  ],
+  "page": [
+   "Pagina",
+   "number",
+   "1"
+  ],
+  "x": [
+   "Distanza da sinistra (mm)",
+   "number",
+   "20"
+  ],
+  "y": [
+   "Distanza dall’alto (mm)",
+   "number",
+   "30"
+  ],
+  "signature": [
+   "Nome da apporre",
+   "text",
+   ""
+  ],
+  "field": [
+   "Nome del campo",
+   "text",
+   ""
+  ],
+  "value": [
+   "Valore del campo",
+   "text",
+   ""
+  ],
+  "password": [
+   "Nuova password",
+   "password",
+   ""
+  ],
+  "needle": [
+   "Testo da oscurare",
+   "text",
+   ""
+  ],
+  "model": [
+   "Modello installato in Ollama",
+   "text",
+   "gemma3:4b"
+  ],
+  "language": [
+   "Lingua di destinazione",
+   "text",
+   "Italiano"
+  ]
+ }
+}
