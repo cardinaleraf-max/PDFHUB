@@ -111,7 +111,7 @@ struct PDFHubMac: App {
             if selected=="protect" { options=["password":""]; }
             if selected=="unlock" { options=["source_password":""]; }
             var job:[String:Any]=["op":selected,"files":paths.map(\.path),"options":options,"output":output.path]
-            let pipe=Process();pipe.executableURL=Bundle.main.bundleURL.appendingPathComponent("Contents/Helpers/engine/engine")
+            let pipe=Process();pipe.executableURL=Bundle.main.bundleURL.appendingPathComponent("Contents/Helpers/engine")
             let stdin=Pipe(),stdout=Pipe();pipe.standardInput=stdin;pipe.standardOutput=stdout
             do {
                 try pipe.run();let data=try JSONSerialization.data(withJSONObject:job);stdin.fileHandleForWriting.write(data);try stdin.fileHandleForWriting.close()
