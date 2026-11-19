@@ -15,7 +15,7 @@ def process(job):
 
 if __name__=="__main__":
     try:
-        job=json.load(sys.stdin)
+        job=json.loads(sys.stdin.buffer.read().decode("utf-8-sig"))
         # Alcuni lettori di tabelle stampano messaggi informativi.
         from contextlib import redirect_stdout
         with redirect_stdout(sys.stderr):
