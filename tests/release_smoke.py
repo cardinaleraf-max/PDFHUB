@@ -23,7 +23,7 @@ def main():
         assert within(sys.executable, runtime), (sys.executable, runtime)
         command=[str(runtime/"python.exe"),"-B","-X","utf8",str(app/"worker.py")]
     else:
-        command=[str(app/"Contents/Helpers/engine/engine")]
+        command=[str(app/"Contents/Helpers/engine")]
     with tempfile.TemporaryDirectory() as tmp:
         source=Path(tmp)/"Documento città.pdf"
         target=Path(tmp)/"output"
