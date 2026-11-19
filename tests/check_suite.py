@@ -81,6 +81,7 @@ def cases():
 def validate(label,op,source,opts,name,data):
     assert data, label
     if name.endswith(".pdf"):
+        assert data.startswith(b"%PDF-"), (label,"file extension is .pdf but signature is missing")
         if op!="protect":
             reader=PdfReader(io.BytesIO(data))
             assert reader.pages
@@ -190,6 +191,9 @@ def check_browser(items):
 
 def check_native(items):
     framework=Path(os.environ["SystemRoot"])/"Microsoft.NET/Framework64/v4.0.30319"
+    def output_extension(op,opts):
+        return {"split":".zip" if opts.get("mode")=="all" else ".pdf","text":".txt","markdown":".md","images":".zip",
+                "toimg":".zip","compare":".html","pptout":".pptx","excelout":".xlsx","wordout":".docx"}.get(op,".pdf")
     with tempfile.TemporaryDirectory() as temp:
         folder=Path(temp)
         for name in ("engine.py","formats.py","openxml_io.py","worker.py","windows-tools.ps1"):
@@ -207,18 +211,17 @@ def check_native(items):
             paths=[]
             for i,(name,data) in enumerate(source):
                 f=loc/(str(i)+" "+name);f.write_bytes(data);paths.append(str(f))
-            manifest.append(dict(label=label,op=op,files=paths,options=opts,target=str(loc/"output")))
+            manifest.append(dict(label=label,op=op,files=paths,options=opts,target=str(loc/("output"+output_extension(op,opts)))))
         path=folder/"cases.json";path.write_text(json.dumps(manifest),"utf8")
         subprocess.run([str(executable),str(path)],check=True,timeout=450)
         for label,op,source,opts in items:
-            dest=folder/label/"output"
+            dest=folder/label/("output"+output_extension(op,opts))
             if not dest.exists():
-                assert dependency_case(label),(label,dest.with_suffix(".error").read_text("utf8"))
-                check_error(label,dest.with_suffix(".error").read_text("utf8"))
+                error_file=dest.with_name(dest.name+".error")
+                assert dependency_case(label),(label,error_file.read_text("utf8"))
+                check_error(label,error_file.read_text("utf8"))
             else:
-                ext={"split":".zip" if opts.get("mode")=="all" else ".pdf","text":".txt","markdown":".md","images":".zip",
-                     "toimg":".zip","compare":".html","pptout":".pptx","excelout":".xlsx","wordout":".docx"}.get(op,".pdf")
-                validate(label,op,source,opts,"output"+ext,dest.read_bytes())
+                validate(label,op,source,opts,dest.name,dest.read_bytes())
 
 
 if __name__=="__main__":
@@ -229,3 +232,4 @@ if __name__=="__main__":
     test_cases=cases()
     (check_native if args.native else check_browser if args.browser else check_worker)(test_cases)
     print(len(test_cases),"casi verificati",flush=True)
+

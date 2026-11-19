@@ -16,6 +16,12 @@ python3 -m pip install --disable-pip-version-check --requirement "$root/requirem
 python3 -m PyInstaller --noconfirm --clean --onedir --console --name engine \
   --add-data "$root/ui/catalog.json:ui" --distpath "$app/Contents/Helpers" --workpath "$stage/work" \
   --specpath "$stage" "$root/worker.py"
-codesign --force --deep --sign - "$app"
+# PyInstaller's bundled Python framework contains a plain python3.12 binary
+# that Apple's --deep traversal mistakes for a nested application bundle.
+# Sign the two executable entry points and the outer app explicitly instead.
+codesign --force --sign - "$app/Contents/Helpers/engine/engine"
+codesign --force --sign - "$app/Contents/MacOS/PDFHub"
+codesign --force --sign - "$app"
 mkdir -p "$root/dist"
 ditto -c -k --sequesterRsrc --keepParent "$app" "$root/dist/PDFHub-${version}-macOS-${arch}.zip"
+

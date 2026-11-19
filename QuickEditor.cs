@@ -112,12 +112,20 @@ internal sealed class QuickEditor : Window
                 status.Text="Conversione completata.";action.Content="Salva risultato";
             }
             string extension=Path.GetExtension(resultName);
-            var save=new SaveFileDialog{FileName=resultName,DefaultExt=extension,Filter=extension.Substring(1).ToUpperInvariant()+"|*"+extension,
+            var save=new SaveFileDialog{FileName=resultName,DefaultExt=extension,AddExtension=true,Filter=extension.Substring(1).ToUpperInvariant()+"|*"+extension,
                 InitialDirectory=files.Count==0?"":Path.GetDirectoryName(files[0])};
             if(chooseDestination(save)){
-                string temp=Path.Combine(Path.GetDirectoryName(save.FileName),".pdfhub-"+Guid.NewGuid().ToString("N")+".tmp");
+                string destination=save.FileName;
+                if(extension.Equals(".pdf",StringComparison.OrdinalIgnoreCase)&&!Path.GetExtension(destination).Equals(".pdf",StringComparison.OrdinalIgnoreCase))destination+=".pdf";
+                string temp=Path.Combine(Path.GetDirectoryName(destination),".pdfhub-"+Guid.NewGuid().ToString("N")+".tmp");
                 try{File.Copy(Path.Combine(folder,"result"),temp);
-                    if(File.Exists(save.FileName))File.Replace(temp,save.FileName,null);else File.Move(temp,save.FileName);
+                    if(extension.Equals(".pdf",StringComparison.OrdinalIgnoreCase)){
+                        using(var stream=File.OpenRead(temp)){
+                            byte[] signature=new byte[5];
+                            if(stream.Read(signature,0,signature.Length)!=signature.Length||Encoding.ASCII.GetString(signature)!="%PDF-")throw new IOException("Il file prodotto non contiene un PDF valido.");
+                        }
+                    }
+                    if(File.Exists(destination))File.Replace(temp,destination,null);else File.Move(temp,destination);
                 }finally{if(File.Exists(temp))File.Delete(temp);}
                 busy=false;Saved=true;Close();
             }
@@ -125,3 +133,4 @@ internal sealed class QuickEditor : Window
         finally{busy=false;progress.IsIndeterminate=false;action.IsEnabled=true;form.IsEnabled=resultName==null;}
     }
 }
+

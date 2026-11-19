@@ -88,8 +88,17 @@ struct PDFHubMac: App {
     }
     private func convert() {
         guard let selected else {return}
-        let panel=NSSavePanel();panel.nameFieldStringValue=(paths.first?.deletingPathExtension().lastPathComponent ?? "documento")+"-pdfhub.pdf"
-        guard panel.runModal() == NSApplication.ModalResponse.OK,let output=panel.url else{return}
+        let panel=NSSavePanel()
+        let base=(paths.first?.deletingPathExtension().lastPathComponent ?? "documento")+"-pdfhub"
+        let fileExtension:[String:String]=["split":"zip","images":"zip","toimg":"zip","text":"txt","markdown":"md","compare":"html","wordout":"docx","excelout":"xlsx","pptout":"pptx"][selected!] ?? "pdf"
+        panel.nameFieldStringValue=base+"."+fileExtension
+        panel.allowedContentTypes=[UTType(filenameExtension:fileExtension) ?? .data]
+        panel.isExtensionHidden=false
+        guard panel.runModal() == NSApplication.ModalResponse.OK,let chosen=panel.url else{return}
+        let output: URL
+        if chosen.pathExtension.lowercased() != fileExtension {
+            output=chosen.appendingPathExtension(fileExtension)
+        } else { output=chosen }
         busy=true;message=""
         DispatchQueue.global(qos:.userInitiated).async {
             var options:[String:String]=[:]
@@ -108,6 +117,10 @@ struct PDFHubMac: App {
                 let response=stdout.fileHandleForReading.readDataToEndOfFile();pipe.waitUntilExit()
                 let record=try JSONSerialization.jsonObject(with:response) as? [String:String] ?? [:]
                 if pipe.terminationStatus != 0 || record["error"] != nil { throw NSError(domain:"PDFHub",code:1,userInfo:[NSLocalizedDescriptionKey:record["error"] ?? "Conversione non riuscita."]) }
+                if fileExtension == "pdf" {
+                    let signature=try Data(contentsOf:output).prefix(5)
+                    guard signature.elementsEqual(Data("%PDF-".utf8)) else { throw NSError(domain:"PDFHub",code:2,userInfo:[NSLocalizedDescriptionKey:"Il file prodotto non contiene un PDF valido."]) }
+                }
                 DispatchQueue.main.async { self.busy=false;self.result=output;self.message="Conversione completata." }
             } catch {DispatchQueue.main.async {self.busy=false;self.message=error.localizedDescription}}
         }
@@ -118,3 +131,4 @@ struct PDFHubMac: App {
         catch {message=error.localizedDescription}
     }
 }
+

@@ -15,8 +15,12 @@ def main():
     app=Path(sys.argv[1]).resolve()
     if sys.platform=="win32":
         runtime=app/"runtime"
-        assert Path(pymupdf.__file__).is_relative_to(runtime)
-        assert Path(sys.executable).is_relative_to(runtime)
+        # Windows may expose the same temp path through its 8.3 short name.
+        def within(path, root):
+            return os.path.commonpath((os.path.normcase(os.path.realpath(path)),
+                                       os.path.normcase(os.path.realpath(root)))) == os.path.normcase(os.path.realpath(root))
+        assert within(pymupdf.__file__, runtime), (pymupdf.__file__, runtime)
+        assert within(sys.executable, runtime), (sys.executable, runtime)
         command=[str(runtime/"python.exe"),"-B","-X","utf8",str(app/"worker.py")]
     else:
         command=[str(app/"Contents/Helpers/engine/engine")]
@@ -42,3 +46,4 @@ def main():
 
 if __name__=="__main__":
     main()
+
