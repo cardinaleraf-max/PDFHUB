@@ -199,6 +199,7 @@ def check_native(items):
         for name in ("engine.py","formats.py","openxml_io.py","worker.py","windows-tools.ps1"):
             shutil.copy2(ROOT/name,folder/name)
         shutil.copytree(ROOT/"ui",folder/"ui")
+        shutil.copytree(ROOT/"docs",folder/"docs")
         executable=folder/"NativeChecks.exe"
         references=["System.Windows.Forms","System.Web.Extensions","System.Xaml"]
         args=["/reference:"+n+".dll" for n in references]

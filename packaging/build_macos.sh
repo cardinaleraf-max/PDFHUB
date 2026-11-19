@@ -14,7 +14,8 @@ cp "$root/macos/Info.plist" "$app/Contents/Info.plist"
 python3 "$root/packaging/macos_icon.py" "$root/ui/icon.svg" "$app/Contents/Resources/PDFHub.icns"
 python3 -m pip install --disable-pip-version-check --requirement "$root/requirements.txt" pyinstaller
 python3 -m PyInstaller --noconfirm --clean --onefile --console --name engine \
-  --add-data "$root/ui/catalog.json:ui" --distpath "$app/Contents/Helpers" --workpath "$stage/work" \
+  --add-data "$root/ui/catalog.json:ui" --add-data "$root/docs/sRGB.icc:docs" \
+  --distpath "$app/Contents/Helpers" --workpath "$stage/work" \
   --specpath "$stage" "$root/worker.py"
 python3 "$root/tests/release_smoke.py" "$app"
 # Keep the worker as one signed executable so the app bundle has no nested

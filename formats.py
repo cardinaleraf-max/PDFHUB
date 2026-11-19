@@ -58,9 +58,9 @@ def office_input(op, name, data):
 
 
 def archive_pdf(doc):
-    profile = Path(os.environ["SystemRoot"]) / "System32/spool/drivers/color/sRGB Color Space Profile.icm"
+    profile = Path(__file__).parent / "docs/sRGB.icc"
     if not profile.is_file():
-        raise ValueError("Profilo colore sRGB di Windows non disponibile.")
+        raise ValueError("Profilo colore sRGB PDF/A non disponibile.")
     with pdf.open() as out:
         for page in doc:
             dest = out.new_page(width=page.rect.width,height=page.rect.height)
@@ -207,3 +207,4 @@ def local_language(op, content, options):
         answer = post("/api/generate",{"model":model,"system":system,"prompt":part,"stream":False})
         blocks.append(answer["response"].strip())
     return "\n\n".join(blocks)
+
