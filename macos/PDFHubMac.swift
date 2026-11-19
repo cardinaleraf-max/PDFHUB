@@ -91,7 +91,7 @@ struct PDFHubMac: App {
         let panel=NSSavePanel()
         let base=(paths.first?.deletingPathExtension().lastPathComponent ?? "documento")+"-pdfhub"
         let extensions:[String:String]=["split":"zip","images":"zip","toimg":"zip","text":"txt","markdown":"md","compare":"html","wordout":"docx","excelout":"xlsx","pptout":"pptx"]
-        let fileExtension=extensions[selected!] ?? "pdf"
+        let fileExtension=extensions[selected] ?? "pdf"
         panel.nameFieldStringValue=base+"."+fileExtension
         panel.allowedContentTypes=[UTType(filenameExtension:fileExtension) ?? .data]
         panel.isExtensionHidden=false
