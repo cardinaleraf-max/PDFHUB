@@ -23,4 +23,3 @@ python3 "$root/tests/release_smoke.py" "$app"
 codesign --force --deep --sign - "$app"
 mkdir -p "$root/dist"
 ditto -c -k --sequesterRsrc --keepParent "$app" "$root/dist/PDFHub-${version}-macOS-${arch}.zip"
-
